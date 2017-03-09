@@ -50,6 +50,20 @@ final class NF_Actions_Email extends NF_Abstracts_Action
         $errors = $this->check_for_errors( $action_settings );
 
         $headers = $this->_get_headers( $action_settings );
+        
+        if ( has_filter( 'ninja_forms_get_fields_sorted' ) ) {
+            $fields_by_key = array();
+            foreach( $data[ 'fields' ] as $field ){
+                if( is_array( $field ) ){
+                    if( ! isset( $field[ 'key' ] ) ) continue;
+                    $key = $field[ 'key' ];
+                } else {
+                    $key = $field->get_setting('key');
+                }
+                $fields_by_key[ $key ] = $field;
+            }
+            $data[ 'fields' ] = apply_filters( 'ninja_forms_get_fields_sorted', array(), $data[ 'fields' ], $fields_by_key, $form_id );
+        }
 
         $attachments = $this->_get_attachments( $action_settings, $data );
 
