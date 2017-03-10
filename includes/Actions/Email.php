@@ -217,8 +217,10 @@ final class NF_Actions_Email extends NF_Abstracts_Action
             if( ! isset( $field[ 'label' ] ) ) continue;
             if( 'hr' == $field['type'] ) continue;
             if( 'submit' == $field['type'] ) continue;
+            
+            $label = ( '' != $field[ 'admin_label' ] ) ? $field[ 'admin_label' ] : $field[ 'label' ];
 
-            $csv_array[ 0 ][] = $field[ 'label' ];
+            $csv_array[ 0 ][] = $label;
             $csv_array[ 1 ][] = WPN_Helper::stripslashes( $field[ 'value' ] );
         }
 
