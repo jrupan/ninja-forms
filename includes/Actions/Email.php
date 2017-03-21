@@ -211,17 +211,32 @@ final class NF_Actions_Email extends NF_Abstracts_Action
     private function _create_csv( $fields )
     {
         $csv_array = array();
+        
+        // Get our current date.
+        $date_format = Ninja_Forms()->get_setting( 'date_format' );
+        $today = date( $date_format, current_time( 'timestamp' ) );
+        $csv_array[ 0 ][] = 'Date Submitted';
+        $csv_array[ 1 ][] = $today;
 
         foreach( $fields as $field ){
 
             if( ! isset( $field[ 'label' ] ) ) continue;
-            if( 'hr' == $field['type'] ) continue;
-            if( 'submit' == $field['type'] ) continue;
+            if( 'hr' == $field[ 'type' ] ) continue;
+            if( 'submit' == $field[ 'type' ] ) continue;
+            if( 'html' == $field[ 'type' ] ) continue;
             
             $label = ( '' != $field[ 'admin_label' ] ) ? $field[ 'admin_label' ] : $field[ 'label' ];
+            
+            $value = WPN_Helper::stripslashes( $field[ 'value' ] );
+            if ( empty( $value ) ) {
+                $value = '';
+            }
+            if ( is_array( $value ) ) {
+                $value = implode( ',', $value );
+            }
 
             $csv_array[ 0 ][] = $label;
-            $csv_array[ 1 ][] = WPN_Helper::stripslashes( $field[ 'value' ] );
+            $csv_array[ 1 ][] = $value;
         }
 
         $csv_content = WPN_Helper::str_putcsv( $csv_array,
