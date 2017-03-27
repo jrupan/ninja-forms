@@ -474,8 +474,6 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         public function get_tls()
         {
             $php_ver = phpversion();
-            // Set our target version to check against.
-            $TARGET_VERSION = '1.2';
             // If we have a php version of 5.6 or higher...
             if( '5.6.0' <= $php_ver ) {
                 // Get the user's TLS version.
@@ -495,7 +493,6 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                     $tls = $meta[ 'ssl' ][ 'session_meta' ][ 'protocol' ];
                     unset( $ctx );
                 }
-                //$tls = 'TLSv1.0';
                 // If we got a TLS version number...
                 if( false !== strpos( $tls, 'TLSv' ) ) {
                     $ver = substr( $tls, strpos( $tls, 'TLSv' ) + 4 );
