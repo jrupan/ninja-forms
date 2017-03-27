@@ -475,31 +475,28 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         {
             $php_ver = phpversion();
             // If we have a php version of 5.6 or higher...
-            if( '5.6.0' <= $php_ver ) {
-                // Get the user's TLS version.
+            if( '5.6.0' > $php_ver ) return false;
+            // Get the user's TLS version.
 
-                // If we have a php version of 7.0 or higher...
-                if( '7.0.0' <= $php_ver ) {
-                    $meta = stream_get_meta_data( fopen( 'https://ninjaforms.com/', 'r' ) );
-                    $tls = $meta[ 'crypto' ][ 'protocol' ];            
-                }
-                // Otherwise (php version between 5.6 and 7.0)...
-                else {
-                    $ctx = stream_context_create( array( 'ssl' => array(
-                        'capture_session_meta' => TRUE
-                    ) ) );
-                    $html = file_get_contents( 'https://ninjaforms.com/', FALSE, $ctx );
-                    $meta = stream_context_get_options( $ctx );
-                    $tls = $meta[ 'ssl' ][ 'session_meta' ][ 'protocol' ];
-                    unset( $ctx );
-                }
-                // If we got a TLS version number...
-                if( false !== strpos( $tls, 'TLSv' ) ) {
-                    $ver = substr( $tls, strpos( $tls, 'TLSv' ) + 4 );
-                    return floatval( $ver );
-                } else {
-                    return false;
-                }
+            // If we have a php version of 7.0 or higher...
+            if( '7.0.0' <= $php_ver ) {
+                $meta = stream_get_meta_data( fopen( 'https://ninjaforms.com/', 'r' ) );
+                $tls = $meta[ 'crypto' ][ 'protocol' ];            
+            }
+            // Otherwise (php version between 5.6 and 7.0)...
+            else {
+                $ctx = stream_context_create( array( 'ssl' => array(
+                    'capture_session_meta' => TRUE
+                ) ) );
+                $html = file_get_contents( 'https://ninjaforms.com/', FALSE, $ctx );
+                $meta = stream_context_get_options( $ctx );
+                $tls = $meta[ 'ssl' ][ 'session_meta' ][ 'protocol' ];
+                unset( $ctx );
+            }
+            // If we got a TLS version number...
+            if( false !== strpos( $tls, 'TLSv' ) ) {
+                $ver = substr( $tls, strpos( $tls, 'TLSv' ) + 4 );
+                return floatval( $ver );
             } else {
                 return false;
             }
