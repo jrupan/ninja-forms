@@ -116,7 +116,7 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
         $server_ip = $_SERVER['SERVER_ADDR'];
         $host_name = gethostbyaddr( $server_ip );
         
-        $tls = Ninja_Forms()->get_tls();
+        $tls = WPN_Helper::get_tls();
         if ( ! $tls ) $tls = 'unknown';
 
         //Output array
