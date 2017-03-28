@@ -5,6 +5,10 @@ define( ['models/calcModel'], function( CalcModel ) {
 
 		initialize: function( models, options ) {
 			this.options = options;
+            _.each( models, function( model ) {
+                if ( '' === model.dec ) model.dec = 0;
+                model.dec = parseInt( model.dec );
+            } );
 			/*
 			 * Respond to requests for our calc model
 			 */

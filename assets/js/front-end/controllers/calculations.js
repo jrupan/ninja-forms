@@ -73,6 +73,7 @@ define(['models/calcCollection'], function( CalcCollection ) {
 		 * @return void
 		 */
 		setupCalc: function( calcModel ) {
+            console.log(calcModel);
 			// Setup our that var so we can access 'this' context in our loop.
 			var that = this;
 			// Get our equation
