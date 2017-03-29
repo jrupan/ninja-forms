@@ -629,7 +629,7 @@ Label Three, value-three, 3
             <input type="text" class="setting" value="{{{ data.name }}}" data-id="name">
             <span class="nf-option-error"></span>
         </div>
-        <div><?php _e( 'Round To', 'ninja-forms' ); ?></div>
+        <div><?php _e( 'Decimals', 'ninja-forms' ); ?></div>
         <div>
             <input type="text" class="setting" value="{{{ data.dec }}}" data-id="dec">
             <span class="nf-option-error"></span>

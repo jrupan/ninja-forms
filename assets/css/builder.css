@@ -824,14 +824,14 @@ All styles used within the drawer
       width: 100%;
       padding: 0px; }
     .ninja-forms-app .nf-list-options.calculations .nf-div-table .nf-table-row .calc-left div:nth-child(2) {
-      width: 50%;
+      width: 60%;
       text-align: right;
       font-size: 12px;
       float: left;
       padding-top: 20px;
       padding-right: 10px; }
     .ninja-forms-app .nf-list-options.calculations .nf-div-table .nf-table-row .calc-left div:nth-child(3) {
-      width: 50%;
+      width: 50px;
       float: left;
       padding-top: 10px; }
 
