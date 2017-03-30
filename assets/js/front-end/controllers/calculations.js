@@ -73,7 +73,6 @@ define(['models/calcCollection'], function( CalcCollection ) {
 		 * @return void
 		 */
 		setupCalc: function( calcModel ) {
-            console.log(calcModel);
 			// Setup our that var so we can access 'this' context in our loop.
 			var that = this;
 			// Get our equation
@@ -141,7 +140,7 @@ define(['models/calcCollection'], function( CalcCollection ) {
 
 			// Evaluate the equation and update the value of this model.
 			try {
-				calcModel.set('value', math.eval(eqValues));
+				calcModel.set( 'value', Number( mexp.eval( eqValues ) ).toFixed( calcModel.get( 'dec' ) ) );
 			} catch( e ) {
 				console.log( e );
 			}
@@ -268,7 +267,7 @@ define(['models/calcCollection'], function( CalcCollection ) {
 			var value = this.getCalcValue( fieldModel );
 			this.updateCalcFields( calcModel, key, value );
 			var eqValues = this.replaceAllKeys( calcModel );
-			calcModel.set( 'value', math.eval( eqValues ) );
+			calcModel.set( 'value', Number( mexp.eval( eqValues ) ).toFixed( calcModel.get( 'dec' ) ) );
 
 			// Debugging console statement.
 			// console.log( eqValues + ' = ' + calcModel.get( 'value' ) );		
@@ -315,6 +314,7 @@ define(['models/calcCollection'], function( CalcCollection ) {
 							calcValue = calcValue.toFixed( 2 );
 							rounding = false;
 						}
+                        calcValue = that.applyLocaleFormatting( calcValue );
 						value = value.replace( re, calcValue );
 					} );
 					fieldModel.set( 'value', value );
@@ -334,8 +334,21 @@ define(['models/calcCollection'], function( CalcCollection ) {
 		changeCalc: function( calcModel, targetCalcModel ) {
 			var eqValues = this.replaceAllKeys( calcModel );
 			eqValues = eqValues.replace( '[', '' ).replace( ']', '' );
-			calcModel.set( 'value', math.eval( eqValues ) );
-		}
+			calcModel.set( 'value', Number( mexp.eval( eqValues ) ).toFixed( calcModel.get( 'dec' ) ) );
+		},
+        
+        applyLocaleFormatting: function( number ) {
+            /*
+             * Our number will have a . as a decimal point. We want to replace that with our locale decimal, nfi18n.decimal_point.
+             */
+            var replacedDecimal = number.toString().replace( '.', '||' );
+            /*
+             * Add thousands separator. Our original number var won't have thousands separators.
+             */
+            var replacedThousands = replacedDecimal.replace( /\B(?=(\d{3})+(?!\d))/g, nfi18n.thousands_sep );
+            var formattedNumber = replacedThousands.replace( '||', nfi18n.decimal_point );
+            return formattedNumber;
+        }
 	});
 
 	return controller;

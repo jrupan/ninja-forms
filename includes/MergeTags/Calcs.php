@@ -21,7 +21,7 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
         return $this->merge_tags[ $name ][ 'calc_value' ];
     }
 
-    public function set_merge_tags( $key, $value )
+    public function set_merge_tags( $key, $value, $round = 0 )
     {
         $callback = ( is_numeric( $key ) ) ? 'calc_' . $key : $key;
 
@@ -36,7 +36,7 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
             'tag' => "{calc:$key}",
 //            'label' => __( '', 'ninja_forms' ),
             'callback' => $callback,
-            'calc_value' => $calculated_value
+            'calc_value' => number_format( $calculated_value, $round )
         );
 
         $callback .= '2';

@@ -186,7 +186,7 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
              */
             foreach( $this->_form_cache[ 'settings' ][ 'calculations' ] as $calc ){
                 $eq = apply_filters( 'ninja_forms_calc_setting', $calc[ 'eq' ] );
-                $calcs_merge_tags->set_merge_tags( $calc[ 'name' ], $eq );
+                $calcs_merge_tags->set_merge_tags( $calc[ 'name' ], $eq, $calc[ 'dec' ] );
                 $this->_data[ 'extra' ][ 'calculations' ][ $calc[ 'name' ] ] = array(
                     'raw' => $calc[ 'eq' ],
                     'parsed' => $eq,
