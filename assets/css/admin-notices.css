@@ -53,3 +53,9 @@
 .nf-red {
     color: #ED494D;
 }
+.nf-admin-error {
+    border-left: 5px solid #ED494D;
+}
+.nf-admin-error .nf-notice-title {
+    color: #ED494D;
+}
